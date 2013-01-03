@@ -22,18 +22,19 @@ class S3:
 	def upload(self,fp):
 		logKey.set_contents_from_file(open(fp,'r'))
 
-def upload(directory):
+def upload(directory, s3Client):
 	for dirname, dirnames, filenames in os.walk(directory):
 		for subdirname in dirnames:
 			print os.path.join(dirname, subdirname)
 		for filename in filenames:
+			s3Client.upload(os.path.join(dirname, filename))
 			print os.path.join(dirname, filename)
 
 def main():
 	conn = Connection(auth_id, auth_secret_key).connection
 	bucket = conn.get_bucket(bucket_name)
 	s3 = S3(conn, bucket)
-	upload(root_dir)
+	upload(root_dir, s3)
 	print 'Execution Successful.'	
 
 if __name__ == '__main__':
