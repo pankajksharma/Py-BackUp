@@ -20,6 +20,7 @@ class S3:
 		self.bucket = bucket
 
 	def upload(self,fp):
+		legKey = self.bucket.new_key(fp)
 		logKey.set_contents_from_file(open(fp,'r'))
 
 def upload(directory, s3Client):
